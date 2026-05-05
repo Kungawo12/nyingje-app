@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #FDFCF8;
+  --surface: #F4F1EB;
+  --primary: #5B7FA6;
+  --accent: #C9965A;
+  --text: #2C2C2C;
+  --muted: #6B7280;
+  --border: #E5E0D8;
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
