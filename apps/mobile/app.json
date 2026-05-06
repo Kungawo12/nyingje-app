@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "Nyingje",
+    "slug": "nyingje",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "nyingje",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#FDFCF8",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.nyingje.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FDFCF8"
+      },
+      "package": "com.nyingje.app"
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
