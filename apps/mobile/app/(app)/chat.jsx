@@ -8,6 +8,7 @@ import { useRouter } from "expo-router";
 import ChatBubble from "../../components/ChatBubble";
 import ChatInput from "../../components/ChatInput";
 import { useAuth } from "../../hooks/useAuth";
+import api from "../../lib/api";
 
 const MOCK_MESSAGES = [
   { id: "1", role: "assistant", content: "Hello. I'm glad you're here. How are you feeling today?" },
@@ -21,6 +22,7 @@ export default function Chat() {
   const [messages, setMessages] = useState(MOCK_MESSAGES);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
+  const [conversationId, setConversationId] = useState(null);
   const flatRef = useRef(null);
 
   async function handleSend() {
@@ -33,14 +35,21 @@ export default function Chat() {
 
     setSending(true);
     try {
-      // TODO: replace with real API call to /chat
-      await new Promise((r) => setTimeout(r, 1000));
+      const res = await api.post("/chat", { message: text, conversationId });
+      setConversationId(res.data.conversationId);
       const aiMsg = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: "Thank you for sharing that. I'm here with you.",
+        content: res.data.reply,
       };
       setMessages((prev) => [...prev, aiMsg]);
+    } catch (err) {
+      const errorMsg = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: "Sorry, I had trouble connecting. Please try again.",
+      };
+      setMessages((prev) => [...prev, errorMsg]);
     } finally {
       setSending(false);
       setTimeout(() => flatRef.current?.scrollToEnd({ animated: true }), 100);

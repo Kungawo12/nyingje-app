@@ -6,6 +6,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useAuth } from "../../hooks/useAuth";
+import api from "../../lib/api";
 
 export default function Login() {
   const router = useRouter();
@@ -18,11 +19,12 @@ export default function Login() {
     if (!email || !password) return Alert.alert("Please fill in all fields");
     setLoading(true);
     try {
-      // TODO: replace with real API call
-      await login({ id: "mock", name: "Tenzin", email }, "mock-token");
+      const res = await api.post("/auth/login", { email, password });
+      await login(res.data.user, res.data.token);
       router.replace("/(app)/chat");
-    } catch {
-      Alert.alert("Login failed. Please try again.");
+    } catch (err) {
+      const msg = err.response?.data?.error || "Login failed. Please try again.";
+      Alert.alert(msg);
     } finally {
       setLoading(false);
     }

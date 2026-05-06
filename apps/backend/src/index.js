@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const authRoutes = require("./routes/auth");
 const chatRoutes = require("./routes/chat");
+const waitlistRoutes = require("./routes/waitlist");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -18,6 +19,7 @@ app.use(express.json());
 
 app.use("/auth", authRoutes);
 app.use("/chat", chatRoutes);
+app.use("/waitlist", waitlistRoutes);
 
 app.get("/health", (_, res) => res.json({ status: "ok" }));
 

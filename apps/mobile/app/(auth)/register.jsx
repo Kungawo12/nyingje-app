@@ -6,6 +6,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useAuth } from "../../hooks/useAuth";
+import api from "../../lib/api";
 
 export default function Register() {
   const router = useRouter();
@@ -21,11 +22,12 @@ export default function Register() {
     if (password !== confirm) return Alert.alert("Passwords don't match");
     setLoading(true);
     try {
-      // TODO: replace with real API call
-      await login({ id: "mock", name, email }, "mock-token");
+      const res = await api.post("/auth/register", { name, email, password });
+      await login(res.data.user, res.data.token);
       router.replace("/(app)/chat");
-    } catch {
-      Alert.alert("Registration failed. Please try again.");
+    } catch (err) {
+      const msg = err.response?.data?.error || "Registration failed. Please try again.";
+      Alert.alert(msg);
     } finally {
       setLoading(false);
     }
